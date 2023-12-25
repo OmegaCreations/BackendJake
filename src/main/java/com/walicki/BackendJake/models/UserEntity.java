@@ -8,8 +8,6 @@ import java.util.List;
 
 @Document(collection = "users")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserEntity {
 
     // User id
@@ -31,6 +29,7 @@ public class UserEntity {
 
     // Snake color
     @Setter
+    @Getter
     private String snake_color;
 
     // Coffees drank

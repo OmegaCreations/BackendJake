@@ -6,8 +6,10 @@ import com.walicki.BackendJake.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -41,13 +43,21 @@ public class UserService {
             userPass.set(user.getPassword());
         });
 
-        // Print password for testing purposes
-        System.out.println(password);
-
         // return user's data or null
         if(Objects.equals(userPass.get(), password)){
             return userFound;
         } else return Optional.empty();
+    }
+
+    // Update user
+    public Optional<UserEntity> updateUser(String username, String password, String snake_color) {
+        Optional<UserEntity> userFound =  findUser(username, password);
+        userFound.ifPresent(user -> {
+            user.setSnake_color(snake_color);
+            userRepository.save(user);
+        });
+
+        return Optional.empty();
     }
 
     // Register new user
