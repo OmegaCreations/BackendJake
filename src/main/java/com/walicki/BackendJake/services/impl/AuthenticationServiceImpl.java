@@ -10,10 +10,12 @@ import com.walicki.BackendJake.repositories.UserRepository;
 import com.walicki.BackendJake.services.AuthenticationService;
 import com.walicki.BackendJake.services.JWTService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,8 +23,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    @Autowired
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;

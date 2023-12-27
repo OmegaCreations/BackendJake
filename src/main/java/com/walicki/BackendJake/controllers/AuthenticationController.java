@@ -8,14 +8,12 @@ import com.walicki.BackendJake.models.UserEntity;
 import com.walicki.BackendJake.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
@@ -25,12 +23,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestParam("username") String username, @RequestParam("password") String password) {
+        LoginDto loginDto = new LoginDto();
+        loginDto.setUsername(username);
+        loginDto.setPassword(password);
         return ResponseEntity.ok(authenticationService.login(loginDto));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenDto refreshTokenDto) {
+    public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestParam("token") String token) {
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
+        refreshTokenDto.setToken(token);
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenDto));
     }
 }

@@ -1,11 +1,9 @@
 package com.walicki.BackendJake.services.impl;
 
-import com.walicki.BackendJake.models.UserEntity;
 import com.walicki.BackendJake.services.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.security.*;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -48,12 +45,12 @@ public class JWTServiceImpl implements JWTService {
     }
 
     private Key getSignInKey() {
-        byte [] key = Base64.getDecoder().decode("d9224798d065f2994c4924c307f4d2eb15c47933e64ffc114123f69bb0848fd6");
+        byte [] key = Base64.getDecoder().decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
         return  Keys.hmacShaKeyFor(key);
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJwt(token).getBody();
+        return Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

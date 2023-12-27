@@ -1,40 +1,38 @@
 package com.walicki.BackendJake.controllers;
 
+import com.walicki.BackendJake.models.UserEntity;
+import com.walicki.BackendJake.repositories.UserRepository;
+import com.walicki.BackendJake.services.JWTService;
 import com.walicki.BackendJake.services.impl.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
-
     @Autowired
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+    UserRepository userRepository;
 
+    private final JWTService jwtService;
 
     @GetMapping
-    public ResponseEntity<String> adminData() {
-        return ResponseEntity.ok("Hello user!");
+    // Attribute passed from JwtAuthenticationFilter
+    public ResponseEntity<Optional<UserEntity>> userData(@RequestAttribute String userToken) {
+        String userName = jwtService.extractUserName(userToken);
+        Optional<UserEntity> user = userRepository.findByUsername(userName);
+
+        return ResponseEntity.ok(user);
     }
 
-    // Request user registering
-//    @PostMapping("/register")
-//    public UserEntity registerUser(@RequestBody RegisterDto userDto) {
-//        return userService.registerNewUser(userDto);
-//    }
 
-    // Get single user data for tests
-//    @GetMapping("/{username}")
-//    public ResponseEntity<Optional<UserEntity>> getUser(@RequestParam("username") String username, @RequestParam("password") String password){
-//        return new ResponseEntity<Optional<UserEntity>>(userService.findUser(username, password), HttpStatus.OK);
-//    }
 //
 //    // Save existing username new data
 //    @PostMapping(value="/save/{username}")

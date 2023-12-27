@@ -1,5 +1,6 @@
 package com.walicki.BackendJake.config;
 
+import com.mongodb.lang.NonNullApi;
 import com.walicki.BackendJake.services.JWTService;
 import com.walicki.BackendJake.services.UserService;
 import jakarta.servlet.FilterChain;
@@ -14,12 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@CrossOrigin
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
@@ -54,8 +57,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 securityContext.setAuthentication(token);
                 SecurityContextHolder.setContext(securityContext);
+                request.setAttribute("userToken", jwt); // pass token forward
             }
-
         }
         filterChain.doFilter(request, response);
 
