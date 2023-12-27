@@ -3,9 +3,11 @@ package com.walicki.BackendJake.dto;
 import lombok.Data;
 import lombok.Getter;
 
-@Getter
 @Data
-public class RegisterDto {
+public class LoginDto {
+
     private String username;
+
     private String password;
+
 }
