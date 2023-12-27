@@ -1,9 +1,6 @@
 package com.walicki.BackendJake.services.impl;
 
-import com.walicki.BackendJake.dto.JwtAuthenticationResponse;
-import com.walicki.BackendJake.dto.LoginDto;
-import com.walicki.BackendJake.dto.RefreshTokenDto;
-import com.walicki.BackendJake.dto.RegisterDto;
+import com.walicki.BackendJake.dto.*;
 import com.walicki.BackendJake.models.Role;
 import com.walicki.BackendJake.models.UserEntity;
 import com.walicki.BackendJake.repositories.UserRepository;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +78,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return jwtAuthenticationResponse;
         }
         return null;
+    }
+
+
+    // Save user data
+    public UserEntity saveUser(UserDto userDto) {
+        String username = jwtService.extractUserName(userDto.getToken());
+        UserEntity user = userRepository.findByUsername(username).orElseThrow();
+        user.setSnake_color(userDto.getSnake_color());
+        return userRepository.save(user);
     }
 
 }

@@ -2,9 +2,11 @@ package com.walicki.BackendJake.services;
 
 import com.walicki.BackendJake.models.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public interface JWTService {
 

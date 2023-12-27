@@ -1,9 +1,6 @@
 package com.walicki.BackendJake.controllers;
 
-import com.walicki.BackendJake.dto.JwtAuthenticationResponse;
-import com.walicki.BackendJake.dto.LoginDto;
-import com.walicki.BackendJake.dto.RefreshTokenDto;
-import com.walicki.BackendJake.dto.RegisterDto;
+import com.walicki.BackendJake.dto.*;
 import com.walicki.BackendJake.models.UserEntity;
 import com.walicki.BackendJake.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +25,14 @@ public class AuthenticationController {
         loginDto.setUsername(username);
         loginDto.setPassword(password);
         return ResponseEntity.ok(authenticationService.login(loginDto));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<UserEntity> saveUser(@RequestParam("token") String token, @RequestParam("snake_color") String snake_color) {
+        UserDto user = new UserDto();
+        user.setToken(token);
+        user.setSnake_color(snake_color);
+        return ResponseEntity.ok(authenticationService.saveUser(user));
     }
 
     @PostMapping("/refresh")
