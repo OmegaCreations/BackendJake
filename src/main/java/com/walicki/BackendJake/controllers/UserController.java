@@ -2,6 +2,7 @@ package com.walicki.BackendJake.controllers;
 
 import com.walicki.BackendJake.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,6 +16,12 @@ public class UserController {
     @Autowired
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
+    }
+
+
+    @GetMapping
+    public ResponseEntity<String> adminData() {
+        return ResponseEntity.ok("Hello user!");
     }
 
     // Request user registering

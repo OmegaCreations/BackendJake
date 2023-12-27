@@ -2,6 +2,7 @@ package com.walicki.BackendJake.services.impl;
 
 import com.walicki.BackendJake.dto.JwtAuthenticationResponse;
 import com.walicki.BackendJake.dto.LoginDto;
+import com.walicki.BackendJake.dto.RefreshTokenDto;
 import com.walicki.BackendJake.dto.RegisterDto;
 import com.walicki.BackendJake.models.Role;
 import com.walicki.BackendJake.models.UserEntity;
@@ -58,6 +59,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         jwtAuthenticationResponse.setToken(jwt);
         jwtAuthenticationResponse.setRefreshToken(refreshToken);
         return jwtAuthenticationResponse;
+    }
+
+    public JwtAuthenticationResponse refreshToken(RefreshTokenDto refreshTokenDto) {
+        String userName = jwtService.extractUserName(refreshTokenDto.getToken());
+
+        UserEntity user = userRepository.findByUsername(userName).orElseThrow();
+
+        if(jwtService.isTokenValid(refreshTokenDto.getToken(), user)){
+            var jwt = jwtService.generateToken(user);
+
+            JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+
+            jwtAuthenticationResponse.setToken(jwt);
+            jwtAuthenticationResponse.setRefreshToken(refreshTokenDto.getToken());
+            return jwtAuthenticationResponse;
+        }
+        return null;
     }
 
 }

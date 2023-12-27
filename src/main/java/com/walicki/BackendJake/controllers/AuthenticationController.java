@@ -2,6 +2,7 @@ package com.walicki.BackendJake.controllers;
 
 import com.walicki.BackendJake.dto.JwtAuthenticationResponse;
 import com.walicki.BackendJake.dto.LoginDto;
+import com.walicki.BackendJake.dto.RefreshTokenDto;
 import com.walicki.BackendJake.dto.RegisterDto;
 import com.walicki.BackendJake.models.UserEntity;
 import com.walicki.BackendJake.services.AuthenticationService;
@@ -26,5 +27,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(authenticationService.login(loginDto));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenDto refreshTokenDto) {
+        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenDto));
     }
 }
