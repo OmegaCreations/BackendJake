@@ -15,12 +15,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserEntity> signup(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<UserEntity> signup(@RequestParam("username") String username, @RequestParam("password") String password) {
+        RegisterDto registerDto = new RegisterDto();
+        registerDto.setUsername(username);
+        registerDto.setPassword(password);
         return ResponseEntity.ok(authenticationService.signup(registerDto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public ResponseEntity<JwtAuthenticationResponse> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         LoginDto loginDto = new LoginDto();
         loginDto.setUsername(username);
         loginDto.setPassword(password);
